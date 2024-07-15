@@ -64,13 +64,9 @@ inputBox.addEventListener("input", () => {
   displayWord();
 });
 
-inputBox.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    handleSubmit();
-  } else {
-    highlightKey(e.key.toLowerCase());
-  }
+inputBox.addEventListener("keyup", (e) => {
+  const key = e.key.toLowerCase();
+  highlightKey(key);
 });
 
 submitButton.addEventListener("click", (e) => {

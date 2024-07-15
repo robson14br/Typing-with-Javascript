@@ -7,26 +7,31 @@ const inputBox = document.getElementById("input-box");
 const keys = document.querySelectorAll(".key");
 const submitButton = document.querySelector(".submit-button");
 
-const PRESS_AUDIO_POOL_SIZE = 5;
+const PRESS_AUDIO_POOL_SIZE = 3; 
 let pressSoundPool = [];
+
 
 for (let i = 0; i < PRESS_AUDIO_POOL_SIZE; i++) {
   const pressSound = new Audio("src/press.mp3");
   pressSoundPool.push(pressSound);
 }
 
+
+function getFreePressSound() {
+  for (let i = 0; i < pressSoundPool.length; i++) {
+    const sound = pressSoundPool[i];
+    if (sound.currentTime === 0 || sound.paused || sound.ended) {
+      return sound;
+    }
+  }
+  return pressSoundPool[0]; 
+}
+
+// Função para gerar índice aleatório
 function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
 }
 
-function getFreePressSound() {
-  for (let i = 0; i < pressSoundPool.length; i++) {
-    if (pressSoundPool[i].currentTime === 0 || pressSoundPool[i].ended) {
-      return pressSoundPool[i];
-    }
-  }
-  return pressSoundPool[0];
-}
 
 function displayWord() {
   const word = words[currentWordIndex];
@@ -45,6 +50,7 @@ function displayWord() {
   wordContainer.innerHTML = displayedWord;
 }
 
+// Função para destacar a tecla pressionada e reproduzir som
 function highlightKey(key) {
   keys.forEach((k) => {
     if (k.dataset.key === key) {
@@ -60,24 +66,27 @@ function highlightKey(key) {
   pressSound.play();
 }
 
+
 inputBox.addEventListener('input', () => {
   displayWord();
 });
 
+// Manipulador de eventos para teclado e toque
 function handleInputEvent(event) {
   const key = event.key.toLowerCase();
   highlightKey(key);
 }
 
-// Adicionar manipuladores de eventos para teclado e toque
 inputBox.addEventListener('keyup', handleInputEvent);
 inputBox.addEventListener('touchstart', handleInputEvent);
 
+// Evento de clique no botão de submit
 submitButton.addEventListener('click', (e) => {
   e.preventDefault();
   handleSubmit();
 });
 
+// Função para tratar o submit da palavra digitada
 function handleSubmit() {
   const word = words[currentWordIndex];
   if (inputBox.value.trim().toLowerCase() === word) {
@@ -93,10 +102,12 @@ function handleSubmit() {
   }
 }
 
+
 function playEnterSound() {
   const enterSound = new Audio("src/enter.mp3");
   enterSound.currentTime = 0;
   enterSound.play();
 }
+
 
 displayWord();

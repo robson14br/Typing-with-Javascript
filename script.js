@@ -5,6 +5,24 @@ const wordContainer = document.getElementById('word-container');
 const inputBox = document.getElementById('input-box');
 const keys = document.querySelectorAll('.key');
 
+
+const PRESS_AUDIO_POOL_SIZE = 5;
+let pressSoundPool = [];
+
+for (let i = 0; i < PRESS_AUDIO_POOL_SIZE; i++) {
+    const pressSound = new Audio('src/press.mp3');
+    pressSoundPool.push(pressSound);
+}
+
+function getFreePressSound() {
+    for (let i = 0; i < pressSoundPool.length; i++) {
+        if (pressSoundPool[i].currentTime === 0 || pressSoundPool[i].ended) {
+            return pressSoundPool[i];
+        }
+    }
+    return pressSoundPool[0];
+}
+
 function displayWord() {
     const word = words[currentWordIndex];
     let displayedWord = '';
@@ -31,6 +49,11 @@ function highlightKey(key) {
             }, 100);
         }
     });
+
+    
+    const pressSound = getFreePressSound();
+    pressSound.currentTime = 0;
+    pressSound.play();
 }
 
 inputBox.addEventListener('input', () => {
@@ -44,6 +67,7 @@ inputBox.addEventListener('keydown', (e) => {
             currentWordIndex = (currentWordIndex + 1) % words.length;
             inputBox.value = "";
             displayWord();
+            playEnterSound();
         } else {
             inputBox.classList.add('incorrect-input');
             setTimeout(() => {
@@ -54,5 +78,12 @@ inputBox.addEventListener('keydown', (e) => {
         highlightKey(e.key.toLowerCase());
     }
 });
+
+
+function playEnterSound() {
+    const enterSound = new Audio('src/enter.mp3');
+    enterSound.currentTime = 0;
+    enterSound.play();
+}
 
 displayWord();

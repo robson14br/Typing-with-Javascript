@@ -60,16 +60,20 @@ function highlightKey(key) {
   pressSound.play();
 }
 
-inputBox.addEventListener("input", () => {
+inputBox.addEventListener('input', () => {
   displayWord();
 });
 
-inputBox.addEventListener("keyup", (e) => {
-  const key = e.key.toLowerCase();
+function handleInputEvent(event) {
+  const key = event.key.toLowerCase();
   highlightKey(key);
-});
+}
 
-submitButton.addEventListener("click", (e) => {
+// Adicionar manipuladores de eventos para teclado e toque
+inputBox.addEventListener('keyup', handleInputEvent);
+inputBox.addEventListener('touchstart', handleInputEvent);
+
+submitButton.addEventListener('click', (e) => {
   e.preventDefault();
   handleSubmit();
 });

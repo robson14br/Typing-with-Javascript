@@ -5,6 +5,7 @@ let currentWordIndex = getRandomIndex(words.length);
 const wordContainer = document.getElementById("word-container");
 const inputBox = document.getElementById("input-box");
 const keys = document.querySelectorAll(".key");
+const submitButton = document.querySelector(".submit-button");
 
 const PRESS_AUDIO_POOL_SIZE = 5;
 let pressSoundPool = [];
@@ -65,22 +66,32 @@ inputBox.addEventListener("input", () => {
 
 inputBox.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    const word = words[currentWordIndex];
-    if (inputBox.value === word) {
-      currentWordIndex = getRandomIndex(words.length);
-      inputBox.value = "";
-      displayWord();
-      playEnterSound();
-    } else {
-      inputBox.classList.add("incorrect-input");
-      setTimeout(() => {
-        inputBox.classList.remove("incorrect-input");
-      }, 500);
-    }
+    e.preventDefault();
+    handleSubmit();
   } else {
     highlightKey(e.key.toLowerCase());
   }
 });
+
+submitButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  handleSubmit();
+});
+
+function handleSubmit() {
+  const word = words[currentWordIndex];
+  if (inputBox.value.trim().toLowerCase() === word) {
+    currentWordIndex = getRandomIndex(words.length);
+    inputBox.value = "";
+    displayWord();
+    playEnterSound();
+  } else {
+    inputBox.classList.add("incorrect-input");
+    setTimeout(() => {
+      inputBox.classList.remove("incorrect-input");
+    }, 500);
+  }
+}
 
 function playEnterSound() {
   const enterSound = new Audio("src/enter.mp3");

@@ -5,13 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typing Game</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo adicional para o botão de enviar */
+        .submit-button {
+            margin-left: 10px; /* Espaço entre o input e o botão */
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 
 <body>
     <div id="game-container">
         <div id="word-container"></div>
-        <input type="text" id="input-box" autofocus>
+        <form id="word-form">
+            <input type="text" id="input-box" autofocus>
+            <button type="submit" class="submit-button">Enviar</button>
+        </form>
     </div>
     <div id="keyboard-container" class="virtual-keyboard">
         <div class="row">

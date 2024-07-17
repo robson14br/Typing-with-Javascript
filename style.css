@@ -4,7 +4,9 @@ body {
     align-items: center;
     flex-direction: column;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-image: url('src/Maquina-de-escrever.png');
+    background-size: 100% auto ;
+    background-repeat: no-repeat;
     margin: 0;
 }
 
@@ -34,6 +36,8 @@ body {
 #word-container {
     font-size: 2em;
     margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra leve */
+    font-weight: bold; /* Texto em negrito */
 }
 
 #input-box {
@@ -79,10 +83,12 @@ body {
 }
 .correct {
     color: green; /* Cor da letra quando correta */
+    font-weight: bold;
 }
 
 .incorrect {
     color: red; /* Cor da letra quando incorreta */
+    font-weight: bold;
 }
 .incorrect-input {
     background-color: #ffcccc; /* Cor de fundo vermelha para indicar erro */
